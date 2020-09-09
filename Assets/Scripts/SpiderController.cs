@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class SpiderController : EnemyController
 {
-
+    /// <summary>
+    /// New data values for this child
+    /// </summary>
     bool dash_selected;
     Vector3 enemy_located;
     Vector3 change;
     bool attacking;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +23,6 @@ public class SpiderController : EnemyController
         animator = GetComponent<Animator>();
         animator.SetFloat("Move X", 0);
         animator.SetFloat("Move Y", -1);
-        timer = changeTime;
         shootcool = 1.0f;
         speed = 0.0f;
 
@@ -62,14 +64,9 @@ public class SpiderController : EnemyController
                 if (currentState == EnemyState.shooting)
                 {
 
-                    //Debug.Log("checking distance");
-                    //currentState = EnemyState.chasing;
-
                     if (speed >= 0.0f)
                     {
-                        //transform.position = Vector3.MoveTowards(enemy_located, target.position, speed * Time.deltaTime);
                         rigidbody2D.MovePosition(transform.position + enemy_located * speed * Time.deltaTime);
-                        //rigidbody2D.AddForce
 
                     }
 
@@ -99,23 +96,17 @@ public class SpiderController : EnemyController
 
     IEnumerator Dash()
     {
-        //Debug.Log(dashTimer);
-
-        
-
 
         float horizontal = dir.x;
         float vertical = dir.y;
 
         Vector2 direction = new Vector2(horizontal, vertical);
 
-        //Debug.Log("yuh");
         if (currentState == EnemyState.idle && attacking)
         {
             if (!Mathf.Approximately(horizontal, 0.0f) || !Mathf.Approximately(vertical, 0.0f))
             {
 
-                //Debug.Log("lo arreglamos");
                 if (Mathf.Abs(horizontal) > Mathf.Abs(vertical))
                 {
                     if (horizontal > 0)

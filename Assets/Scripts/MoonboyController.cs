@@ -54,7 +54,6 @@ public class MoonboyController : MonoBehaviour
 
         animator.SetFloat("Look X", -1);
         animator.SetFloat("Look Y", 0);
-        Debug.Log("mirando pa la izq");
 
         shoottimer = shootcooldown;
 
@@ -100,6 +99,11 @@ public class MoonboyController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z))
         {
             StartCoroutine(BlockCo());
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
         }
     }
 
@@ -270,7 +274,6 @@ public class MoonboyController : MonoBehaviour
 
         if(currentHealth <= 0)
         {
-            Debug.Log("hasta la proxima");
             SceneManager.LoadScene("DeathMenu");
         }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossController : EnemyController
 {
@@ -10,18 +11,13 @@ public class BossController : EnemyController
     void Start()
     {
 
-        Debug.Log("MOCOS");
         currentState = EnemyState.waiting;
         maxhealth = 20;
         currenthealth = maxhealth;
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        timer = changeTime;
         shootcool = 3.0f;
-        max_parried = 2.0f;
-
-        chaseRadius = 5.0f;
-        attackRadius = 0.5f;
+        chaseRadius = 10.0f;
         baseAttack = 1;
         crossdir = true;
         target = GameObject.FindWithTag("Player").transform;
@@ -38,7 +34,6 @@ public class BossController : EnemyController
         CheckDistance();
         if (currentState == EnemyState.shooting)
         {
-            Debug.Log("lets goo!");
             Launch();
         }
     }
@@ -71,7 +66,6 @@ public class BossController : EnemyController
         Debug.Log(shoottimer);
         if (shoottimer <= 0)
         {
-            Debug.Log("venga vamos");  
             //currentState = EnemyState.shooting;
             StartCoroutine(LaunchCo());
             shoottimer = shootcool;
@@ -134,6 +128,33 @@ public class BossController : EnemyController
         ProjectileEnemy projectile = projectileObject.GetComponent<ProjectileEnemy>();
 
         projectile.Launch(dir, force);
+
+    }
+
+    public override void Damage(int amount)
+
+    {
+
+        currenthealth -= amount;
+
+        if (currenthealth > 0)
+        {
+            string life = currenthealth + "/" + maxhealth;
+
+            texto.text = life;
+
+        }
+        else if (currenthealth == 0)
+        {
+            string life = currenthealth + "/" + maxhealth;
+
+            texto.text = life;
+            currentState = EnemyState.dying;
+            StartCoroutine("Waiter");
+            SceneManager.LoadScene("VictoryMenu");
+
+        }
+
 
     }
 

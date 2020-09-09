@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Máquina de estados para el enemigo
+/// </summary>
 public enum EnemyState
 {
     idle,
@@ -12,11 +15,27 @@ public enum EnemyState
     dying
 }
 
-
-
 public class EnemyController : MonoBehaviour
 {
 
+    
+
+    /// <summary>
+    /// Data values
+    /// </summary>
+    /// 
+    public string enemyName;
+    public int baseAttack;
+    public Animator animator;
+    public float speed = 1.0f;
+    public float shootcool;
+    public float shoottimer;
+    protected Rigidbody2D rigidbody2D;
+    protected TextMesh texto;
+    //protected float timer;
+    int direction = 1;
+    protected Vector3 dir = new Vector3();
+    public GameObject projectilePrefab;
     protected Transform target;
     public float chaseRadius;
     public float attackRadius;
@@ -27,30 +46,6 @@ public class EnemyController : MonoBehaviour
     public float max_parried;
 
     /// <summary>
-    /// Data values
-    /// </summary>
-    /// 
-    public string enemyName;
-    public int baseAttack;
-    public Animator animator;
-    public float speed = 1.0f;
-
-    public float shootcool;
-    public float shoottimer;
-
-
-    public bool vertical;
-    public float changeTime = 3.0f;
-
-    protected Rigidbody2D rigidbody2D;
-    protected TextMesh texto;
-    protected float timer;
-    int direction = 1;
-    protected Vector3 dir = new Vector3();
-
-    int next_move = 0;
-
-    /// <summary>
     /// Health values
     /// </summary>
     protected int maxhealth;
@@ -59,7 +54,7 @@ public class EnemyController : MonoBehaviour
                         get { return currenthealth; }
     }
 
-    public GameObject projectilePrefab;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -71,7 +66,6 @@ public class EnemyController : MonoBehaviour
         animator = GetComponent<Animator>();
         animator.SetFloat("Move X", 0);
         animator.SetFloat("Move Y", -1);
-        timer = changeTime;
         shootcool = 3.0f;
         max_parried = 2.0f;
 
@@ -89,7 +83,6 @@ public class EnemyController : MonoBehaviour
     protected virtual void Launch()
     {
 
-        //Debug.Log("LANSANDO");
         GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2D.position + Vector2.up * 0.5f, Quaternion.identity);
 
         ProjectileEnemy projectile = projectileObject.GetComponent<ProjectileEnemy>();
@@ -103,7 +96,6 @@ public class EnemyController : MonoBehaviour
         {
             if (currentState != EnemyState.dying)
             {
-                //currentState = EnemyState.chasing;
                 Vector3 old = new Vector3();
                 old = transform.position;
                 transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
@@ -121,21 +113,11 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void Update()
     {
-
-        //Debug.Log(currentState);
-
         if (currentState != EnemyState.parried)
         {
             CheckDistance();
 
             shoottimer -= Time.deltaTime;
-
-            //Debug.Log(currentState);
-
-
-
-            //Debug.Log("attacking");
-
 
             if (currentState != EnemyState.dying)
             {
@@ -143,14 +125,7 @@ public class EnemyController : MonoBehaviour
                 if (Vector3.Distance(target.position, transform.position) <= attackRadius)
                 {
                     StartCoroutine("Attack");
-                    next_move = 0;
-                    //currentState = EnemyState.waiting;
                 }
-
-
-
-                //Debug.Log("shootin");
-                //currentState = EnemyState.chasing;
 
                 if (shoottimer - Time.deltaTime < 0)
                 {
@@ -158,8 +133,6 @@ public class EnemyController : MonoBehaviour
                     {
                         Launch();
                         shoottimer = shootcool;
-                        next_move = 0;
-                        //currentState = EnemyState.waiting;
                     }
                 }
             }
@@ -172,52 +145,8 @@ public class EnemyController : MonoBehaviour
                 currentState = EnemyState.idle;
             }
         }
-            
-            
-        
     }
 
-        
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
-        timer -= Time.deltaTime;
-
-        if (timer < 0)
-        {
-            direction = -direction;
-            timer = changeTime;
-        }
-
-        Vector2 position = rigidbody2D.position;
-
-        /*if (vertical)
-        {
-            animator.SetFloat("Move X", 0);
-            animator.SetFloat("Move Y", direction);
-            position.y = position.y + Time.deltaTime * speed * direction;
-        }
-        else
-        {
-            animator.SetFloat("Move X", direction);
-            animator.SetFloat("Move Y", 0);
-            position.x = position.x + Time.deltaTime * speed * direction;
-        }
-
-        rigidbody2D.MovePosition(position);*/
-    }
-
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        /*MoonboyController player = other.gameObject.GetComponent<MoonboyController>();
-
-        if (player != null)
-        {
-            player.ChangeHealth(-1);
-        }*/
-    }
 
     public virtual void Damage(int amount)
 
@@ -242,11 +171,6 @@ public class EnemyController : MonoBehaviour
         }
 
 
-        
-
-
-
-
     }
 
     IEnumerator Waiter()
@@ -269,7 +193,6 @@ public class EnemyController : MonoBehaviour
         if (!Mathf.Approximately(horizontal, 0.0f) || !Mathf.Approximately(vertical, 0.0f))
         {
 
-            //Debug.Log("lo arreglamos");
             if (Mathf.Abs(horizontal) > Mathf.Abs(vertical))
             {
                 if (horizontal > 0)
