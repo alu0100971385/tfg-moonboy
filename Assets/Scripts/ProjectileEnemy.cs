@@ -16,6 +16,11 @@ public class ProjectileEnemy : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    /// <summary>
+    /// Adds force to the rigid body, then waits
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <param name="force"></param>
     public void Launch(Vector2 direction, float force)
     {
         rigidbody2d.AddForce(direction * force);
@@ -23,6 +28,10 @@ public class ProjectileEnemy : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// On collision, it shows a splash 
+    /// </summary>
+    /// <param name="other"></param>
     void OnTriggerEnter2D(Collider2D other)
     {
         //we also add a debug log to know what the projectile touch
@@ -50,6 +59,10 @@ public class ProjectileEnemy : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Waiting coroutine
+    /// </summary>
+    /// <returns></returns>
     IEnumerator waiter()
     {
         //Debug.Log("destruyendo?");
@@ -60,6 +73,10 @@ public class ProjectileEnemy : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Waiting coroutine
+    /// </summary>
+    /// <returns></returns>
     IEnumerator waiter2()
     {
 

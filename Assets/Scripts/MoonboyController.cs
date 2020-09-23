@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// State machine
+/// </summary>
 public enum PlayerState
 {
     idle,
@@ -15,6 +18,9 @@ public enum PlayerState
 
 public class MoonboyController : MonoBehaviour
 {
+    /// <summary>
+    /// Values
+    /// </summary>
 
     Animator animator;
     public int maxHealth = 10;
@@ -73,6 +79,9 @@ public class MoonboyController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Checks the input
+    /// </summary>
     private void Update()
     {
 
@@ -107,6 +116,10 @@ public class MoonboyController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Coroutine to block the damage
+    /// </summary>
+    /// <returns></returns>
     IEnumerator BlockCo()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -154,6 +167,9 @@ public class MoonboyController : MonoBehaviour
         currentState = PlayerState.idle;
     }
 
+    /// <summary>
+    /// Function to move the player
+    /// </summary>
     void CheckForMoving()
     {
         change = Vector2.zero;
@@ -197,6 +213,10 @@ public class MoonboyController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Coroutine to dash
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Dash()
     {
         //Debug.Log(dashTimer);
@@ -247,8 +267,10 @@ public class MoonboyController : MonoBehaviour
         yield return null;
     }
 
-
-
+    /// <summary>
+    /// Function to deal damage or add health
+    /// </summary>
+    /// <param name="amount"></param>
     public void ChangeHealth(int amount)
     {
 
@@ -281,6 +303,9 @@ public class MoonboyController : MonoBehaviour
         UIHealthBar.instance.SetValue(currentHealth / (float)maxHealth);
     }
 
+    /// <summary>
+    /// Function to launch a projectile
+    /// </summary>
     void Launch()
     {
         GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
@@ -291,6 +316,10 @@ public class MoonboyController : MonoBehaviour
         animator.SetTrigger("Launch");
     }
 
+    /// <summary>
+    /// Coroutine to attack
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator AttackCo()
     {
         float horizontal = Input.GetAxis("Horizontal");

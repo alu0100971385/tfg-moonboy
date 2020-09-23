@@ -80,6 +80,9 @@ public class EnemyController : MonoBehaviour
         target = GameObject.FindWithTag("Player").transform;
     }
 
+    /// <summary>
+    /// Launches projectile
+    /// </summary>
     protected virtual void Launch()
     {
 
@@ -89,6 +92,9 @@ public class EnemyController : MonoBehaviour
         projectile.Launch(dir, 120);
     }
 
+    /// <summary>
+    /// Checks where the target is and move towards it 
+    /// </summary>
     protected virtual void CheckDistance()
     {
         
@@ -110,7 +116,9 @@ public class EnemyController : MonoBehaviour
         
     }
 
-
+    /// <summary>
+    /// Depending on the distance, it shoots, attacks or just chases the target.
+    /// </summary>
     protected virtual void Update()
     {
         if (currentState != EnemyState.parried)
@@ -147,7 +155,10 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Deal damage
+    /// </summary>
+    /// <param name="amount"></param>
     public virtual void Damage(int amount)
 
     {
@@ -173,6 +184,10 @@ public class EnemyController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Coroutine to wait and die
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Waiter()
     {
 
@@ -185,6 +200,10 @@ public class EnemyController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Coroutine to melee attack
+    /// </summary>
+    /// <returns></returns>
     protected virtual IEnumerator Attack()
     {
         float horizontal = dir.x;

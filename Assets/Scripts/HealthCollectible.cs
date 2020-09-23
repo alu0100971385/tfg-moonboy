@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class HealthCollectible : MonoBehaviour
 {
-
+    /// <summary>
+    /// Adds health to the main character
+    /// </summary>
+    /// <param name="other"></param>
     void OnTriggerEnter2D(Collider2D other)
     {
         MoonboyController controller = other.GetComponent<MoonboyController>();

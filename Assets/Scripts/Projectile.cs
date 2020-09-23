@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+/// <summary>
+/// This class is the same as the enemy projectile. It just changes the target.
+/// </summary>
 public class Projectile : MonoBehaviour
 {
     // Start is called before the first frame update

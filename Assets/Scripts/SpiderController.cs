@@ -39,6 +39,9 @@ public class SpiderController : EnemyController
         target = GameObject.FindWithTag("Player").transform;
     }
 
+    /// <summary>
+    /// Checks where the target is, and jumps to it. It jumps to the same position until another attack is started.
+    /// </summary>
     protected override void CheckDistance()
     {
 
@@ -82,11 +85,13 @@ public class SpiderController : EnemyController
     protected override void Update()
     {
         
-        
         StartCoroutine(Dash());
 
     }
 
+    /// <summary>
+    /// Must be on fixed update because we are moving the rigidbody2d
+    /// </summary>
     void FixedUpdate()
     {
         CheckDistance();
@@ -94,6 +99,10 @@ public class SpiderController : EnemyController
 
     
 
+    /// <summary>
+    /// We increase the speed. We must normalize the values so the right animation is displayed.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Dash()
     {
 
@@ -174,6 +183,10 @@ public class SpiderController : EnemyController
         yield return null;
     }
 
+    /// <summary>
+    /// Once it collides with the main character, it decreases its health by 1.
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Projectile Collision with " + collision.gameObject);

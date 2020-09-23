@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class EnemyHit : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    
+    /// <summary>
+    /// On collision, it damages the main character unless it's blocking
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         MoonboyController e = collision.GetComponent<MoonboyController>();
@@ -42,6 +35,11 @@ public class EnemyHit : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Parrying function
+    /// </summary>
+    /// <param name="ec"></param>
+    /// <returns></returns>
     IEnumerator Parried(EnemyController ec)
     {
         ec.currentState = EnemyState.parried;

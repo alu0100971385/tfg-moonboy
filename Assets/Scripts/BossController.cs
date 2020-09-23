@@ -8,6 +8,10 @@ public class BossController : EnemyController
     // Start is called before the first frame update
 
     bool crossdir;
+    
+    /// <summary>
+    /// Initializing all values
+    /// </summary>
     void Start()
     {
 
@@ -38,6 +42,9 @@ public class BossController : EnemyController
         }
     }
 
+    /// <summary>
+    /// Checks distance to shoot
+    /// </summary>
     protected override void CheckDistance()
     {
 
@@ -59,6 +66,9 @@ public class BossController : EnemyController
 
     }
 
+    /// <summary>
+    /// Timer and shooting
+    /// </summary>
     protected override void Launch()
     {
 
@@ -76,6 +86,10 @@ public class BossController : EnemyController
         
     }
 
+    /// <summary>
+    /// Instantiates the projectiles
+    /// </summary>
+    /// <returns></returns>
     IEnumerator LaunchCo()
     {
        
@@ -122,6 +136,11 @@ public class BossController : EnemyController
         yield return null;
     }
 
+    /// <summary>
+    /// Basic function to instantiate a projectile
+    /// </summary>
+    /// <param name="dir"></param>
+    /// <param name="force"></param>
     void LaunchProjectile(Vector2 dir, float force)
     {
         GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2D.position + Vector2.up * 1f, Quaternion.identity);
@@ -131,6 +150,10 @@ public class BossController : EnemyController
 
     }
 
+    /// <summary>
+    /// Function for receiving damage
+    /// </summary>
+    /// <param name="amount"></param>
     public override void Damage(int amount)
 
     {
